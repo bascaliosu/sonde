@@ -1,0 +1,3 @@
+sonde_homepage:
+    path:     /
+    defaults: { _controller: SondeBundle:Default:index }

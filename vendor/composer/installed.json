@@ -1,5 +1,50 @@
 [
     {
+        "name": "aldas/modbus-tcp-client",
+        "version": "1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/aldas/modbus-tcp-client.git",
+            "reference": "e22a138d5d555c01600322cd3eee1794d0d96fb9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/aldas/modbus-tcp-client/zipball/e22a138d5d555c01600322cd3eee1794d0d96fb9",
+            "reference": "e22a138d5d555c01600322cd3eee1794d0d96fb9",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^6.0",
+            "psr/log": "^1.0",
+            "react/child-process": "^0.5.2",
+            "react/datagram": "^1.4",
+            "react/socket": "^0.8"
+        },
+        "suggest": {
+            "psr/log": "Required for using the Log middleware with BinaryStreamConnection"
+        },
+        "time": "2019-04-06T16:17:56+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "ModbusTcpClient\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "description": "Modbus TCP protocol client library",
+        "keywords": [
+            "modbus"
+        ]
+    },
+    {
         "name": "composer/ca-bundle",
         "version": "1.1.4",
         "version_normalized": "1.1.4.0",
