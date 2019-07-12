@@ -1,2 +1,3 @@
 .idea
-/var
+/var/cache/*
+/var/logs/*
