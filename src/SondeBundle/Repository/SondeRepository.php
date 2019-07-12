@@ -3,7 +3,6 @@
 namespace SondeBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query;
 use SondeBundle\Entity\Sonde;
 
 class SondeRepository extends EntityRepository

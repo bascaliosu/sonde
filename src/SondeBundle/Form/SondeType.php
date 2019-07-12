@@ -37,7 +37,7 @@ class SondeType extends AbstractType
             ->add('save',
                 SubmitType::class,
                 [
-                    'label' => 'Save',
+                    'label' => 'Salveaza',
                     'attr' => [
                         'class' => 'btn btn-primary',
                     ]

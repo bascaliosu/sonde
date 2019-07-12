@@ -3,6 +3,8 @@
 namespace SondeBundle\Controller;
 
 use SondeBundle\Entity\Sonde;
+use SondeBundle\Entity\SondeDetails;
+use SondeBundle\Entity\SondeRpmHistory;
 use SondeBundle\Form\SondeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -64,8 +66,13 @@ class DefaultController extends Controller
     {
         $em = $this->get('doctrine')->getManager('default');
         $sondaRepository = $em->getRepository(Sonde::class);
+        $sondaDetailsRepository = $em->getRepository(SondeDetails::class);
+
         /** @var Sonde $sonda */
         $sonda = $sondaRepository->find($sondaId);
+        $oldRpm = $sonda->getRpm();
+
+        $details = $sondaDetailsRepository->getDetailsBySondaId($sonda->getId());
 
         $sector = $sonda->getSector();
         $sonde = $sondaRepository->getSondeBySector($sector);
@@ -75,17 +82,29 @@ class DefaultController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $submittedSonda = $form->getData();
-            $sonda->setRpm($submittedSonda->getRpm());
+            $newRpm = (int)$submittedSonda->getRpm();
+            $sonda->setRpm($newRpm);
 
             $em->persist($sonda);
             $em->flush();
+
+            if ($oldRpm != $newRpm) {
+                $sondeRpmHistory = new SondeRpmHistory();
+                $sondeRpmHistory->setIdSonda($sondaId);
+                $sondeRpmHistory->setRpm($submittedSonda->getRpm());
+                $sondeRpmHistory->setCreatedAt(new \DateTime());
+
+                $em->persist($sondeRpmHistory);
+                $em->flush();
+            }
         }
 
         return $this->render('@Sonde/Default/details.html.twig', [
             'company_name' => $this->getParameter('company_name'),
             'sonda' => $sonda,
             'sonde' => $sonde,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'details' => $details
         ]);
     }
 }

@@ -1,32 +1,32 @@
 <table class="table">
     <tbody>
-    <tr>
-        <th scope="row">Curent motor</th>
-        <td>{{ random(50, 100) }}</td>
-    </tr>
-    <tr>
-        <th scope="row">Putere motor</th>
-        <td>{{ random(50, 100) }}</td>
-    </tr>
-    <tr>
-        <th scope="row">Tensiune motor</th>
-        <td>{{ random(50, 100) }}</td>
-    </tr>
-    <tr>
-        <th scope="row">Tensiune motor</th>
-        <td>{{ random(50, 100) }}</td>
-    </tr>
-    <tr>
-        <th scope="row">Raport reductor</th>
-        <td>{{ random(50, 100) }}</td>
-    </tr>
-    <tr>
-        <th scope="row">Fulie motor</th>
-        <td>{{ random(50, 100) }}</td>
-    </tr>
-    <tr>
-        <th scope="row">Fulie reductor</th>
-        <td>{{ random(50, 100) }}</td>
-    </tr>
+    {% if details is iterable %}
+        {% for detail in details %}
+            <tr>
+                <th scope="row">Curent motor</th>
+                <td>{{ detail.curentMotor }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Putere motor</th>
+                <td>{{ detail.putereMotor }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Tensiune motor</th>
+                <td>{{ detail.tensiuneMotor }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Raport reductor</th>
+                <td>{{ detail.raportReductor }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Fulie motor</th>
+                <td>{{ detail.fulieMotor }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Fulie reductor</th>
+                <td>{{ detail.fulieReductor }}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
     </tbody>
 </table>
