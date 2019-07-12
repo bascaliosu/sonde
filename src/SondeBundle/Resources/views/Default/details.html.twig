@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div class="container-fluid">
+            <div id="welcome">
+                <h1>{{ company_name }}</h1>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h2>{{ sonda.name }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-5"></div>
+                <div class="col-6">
+                    {{ form_start(form) }}
+                    {{ form_label(form.rpm) }}
+                    {{ form_widget(form.rpm) }}
+                    {{ form_widget(form.save) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-3">
+                    <ul class='list-group' id="sonde-list">
+                        {% include '@Sonde/Default/sondeMenu.html.twig' with { 'sonde': sonde, 'currentId': sonda.id } %}
+                    </ul>
+                </div>
+                <div class="col-6">
+                    <img src="{{ asset('assets/images/pcp.jpeg') }}" alt="PCP" />
+                </div>
+                <div class="col-3">
+                    <ul class='list-group' id="sonde-list">
+                        {% include '@Sonde/Default/sondeDetails.html.twig' with { 'sonda': sonda} %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {#{% set selectedSector = sonde|keys|first %}#}
+
+    {#<script type="text/javascript">#}
+        {#var selectedSector = {{ selectedSector }};#}
+    {#</script>#}
+
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/base.css') }}"/>
+
+    {#<script src="{{ asset('assets/js/jquery-3.4.1.min.js') }}"></script>#}
+    {#<script src="{{ asset('assets/js/base.js') }}"></script>#}
+{% endblock %}

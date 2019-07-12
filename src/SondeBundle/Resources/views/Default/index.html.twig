@@ -1,1 +1,36 @@
-Hello World!
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div class="container-fluid">
+            <div id="welcome">
+                <h1>{{ company_name }}</h1>
+            </div>
+            <div class="row">
+                {% include '@Sonde/Default/sectorMenu.html.twig' with { 'sonde': sonde } %}
+            </div>
+        </div>
+        <div class="container">
+            <div class='row'>
+                <div class="col-3" style="display:none">
+                    <ul class='list-group' id="sonde-list">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {% set selectedSector = sonde|keys|first %}
+
+    <script type="text/javascript">
+        var selectedSector = {{ selectedSector }};
+    </script>
+
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/base.css') }}"/>
+
+    <script src="{{ asset('assets/js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('assets/js/base.js') }}"></script>
+{% endblock %}

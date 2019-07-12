@@ -1,3 +1,12 @@
 sonde_homepage:
     path:     /
     defaults: { _controller: SondeBundle:Default:index }
+
+sonde_by_sector:
+    path: /sonde_sector
+    defaults: { _controller: SondeBundle:Default:getSondeBySector }
+    methods: [POST]
+
+sonde_details:
+    path: /sonde_details/{sondaId}
+    defaults: { _controller: SondeBundle:Default:sondeDetails }

@@ -1,0 +1,13 @@
+{% for sondaDetails in sonde %}
+    {% if currentId == sondaDetails.id %}
+        <li class='list-group-item active'>
+            {{ sondaDetails.name }}
+        </li>
+    {% else %}
+        <li class='list-group-item'>
+            <a href='{{ path('sonde_details', {'sondaId' : sondaDetails.id}) }}'>
+                {{ sondaDetails.name }}
+            </a>
+        </li>
+    {% endif %}
+{% endfor %}

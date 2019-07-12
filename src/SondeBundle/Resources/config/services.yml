@@ -1,4 +1,9 @@
 services:
-#    sonde.example:
-#        class: SondeBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+  _defaults:
+    public: false
+    autowire: true
+    autoconfigure: true
+
+  SondeBundle\:
+    public: true
+    resource: '../../{Controller}/*'

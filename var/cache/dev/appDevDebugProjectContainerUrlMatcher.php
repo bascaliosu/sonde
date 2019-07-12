@@ -122,6 +122,23 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         }
         not_sonde_homepage:
 
+        // sonde_by_sector
+        if ('/sonde_sector' === $pathinfo) {
+            $ret = array (  '_controller' => 'SondeBundle\\Controller\\DefaultController::getSondeBySectorAction',  '_route' => 'sonde_by_sector',);
+            if (!in_array($requestMethod, ['POST'])) {
+                $allow = array_merge($allow, ['POST']);
+                goto not_sonde_by_sector;
+            }
+
+            return $ret;
+        }
+        not_sonde_by_sector:
+
+        // sonde_details
+        if (0 === strpos($pathinfo, '/sonde_details') && preg_match('#^/sonde_details/(?P<sondaId>[^/]++)$#sD', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, ['_route' => 'sonde_details']), array (  '_controller' => 'SondeBundle\\Controller\\DefaultController::sondeDetailsAction',));
+        }
+
         // homepage
         if ('' === $trimmedPathinfo) {
             $ret = array (  '_controller' => 'AppBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
