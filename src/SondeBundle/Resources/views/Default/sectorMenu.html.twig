@@ -1,5 +1,5 @@
 {% for sector, sonda in sonde %}
     <div class="col text-center">
-        <a href="#" class="btn btn-secondary" onclick="SONDE.getSondeBySector({{ sector }})">Sector {{ sector }}</a>
+        <a href="#" class="sectors btn btn-secondary" id="id_sector_{{ sector }}" onclick="SONDE.getSondeBySector({{ sector }})">Sector {{ sector }}</a>
     </div>
 {% endfor %}
