@@ -70,7 +70,6 @@ class DefaultController extends Controller
 
         /** @var Sonde $sonda */
         $sonda = $sondaRepository->find($sondaId);
-        $oldRpm = $sonda->getRpm();
 
         $details = $sondaDetailsRepository->getDetailsBySondaId($sonda->getId());
 
@@ -88,15 +87,13 @@ class DefaultController extends Controller
             $em->persist($sonda);
             $em->flush();
 
-            if ($oldRpm != $newRpm) {
-                $sondeRpmHistory = new SondeRpmHistory();
-                $sondeRpmHistory->setIdSonda($sondaId);
-                $sondeRpmHistory->setRpm($submittedSonda->getRpm());
-                $sondeRpmHistory->setCreatedAt(new \DateTime());
+            $sondeRpmHistory = new SondeRpmHistory();
+            $sondeRpmHistory->setIdSonda($sondaId);
+            $sondeRpmHistory->setRpm($submittedSonda->getRpm());
+            $sondeRpmHistory->setCreatedAt(new \DateTime());
 
-                $em->persist($sondeRpmHistory);
-                $em->flush();
-            }
+            $em->persist($sondeRpmHistory);
+            $em->flush();
         }
 
         return $this->render('@Sonde/Default/details.html.twig', [
