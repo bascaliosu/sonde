@@ -72,3 +72,6 @@ swiftmailer:
 sensio_framework_extra:
    router:
         annotations: false
+
+cmen_google_charts:
+    version: "current"

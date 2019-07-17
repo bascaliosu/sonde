@@ -12,6 +12,26 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SondeDetails
 {
+    const SONDA_RPM = 1;
+    const SONDA_CURENT_MOTOR = 2;
+    const SONDA_PUTERE_MOTOR = 3;
+    const SONDA_TENSIUNE_MOTOR = 4;
+    const SONDA_RAPORT_REDUCTOR = 5;
+    const SONDA_FULIE_MOTOR = 6;
+    const SONDA_FULIE_REDUCTOR = 7;
+    const SONDA_DEBIT = 8;
+
+    public static $sondaDetails = [
+        self::SONDA_RPM,
+        self::SONDA_CURENT_MOTOR,
+        self::SONDA_PUTERE_MOTOR,
+        self::SONDA_TENSIUNE_MOTOR,
+        self::SONDA_RAPORT_REDUCTOR,
+        self::SONDA_FULIE_MOTOR,
+        self::SONDA_FULIE_REDUCTOR,
+        self::SONDA_DEBIT
+    ];
+
     /**
      * @var integer
      *

@@ -14,7 +14,7 @@ class SondeDetailsRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('sd')
             ->where('sd.idSonda = :sondaId')
-            ->orderBy("sd.createdAt")
+            ->orderBy("sd.createdAt", "DESC")
             ->setMaxResults(1)
             ->setParameters(["sondaId" => $sondaId]);
 

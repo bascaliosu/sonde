@@ -10,3 +10,11 @@ sonde_by_sector:
 sonde_details:
     path: /sonde_details/{sondaId}
     defaults: { _controller: SondeBundle:Default:sondeDetails }
+
+sonde_charts:
+    path: /sonde_charts/{sondaId}
+    defaults: { _controller: SondeBundle:Default:sondeCharts }
+
+sonde_debit:
+    path: /sonde_debit/{sondaId}
+    defaults: { _controller: SondeBundle:Default:sondeDebit }

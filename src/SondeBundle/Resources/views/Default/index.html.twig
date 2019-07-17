@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '@Sonde/base.html.twig' %}
 
 {% block body %}
     <div id="wrapper">
@@ -22,15 +22,12 @@
 {% endblock %}
 
 {% block stylesheets %}
+    {{ parent() }}
     {% set selectedSector = sonde|keys|first %}
 
     <script type="text/javascript">
         var selectedSector = {{ selectedSector }};
     </script>
-
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('assets/css/base.css') }}"/>
-
     <script src="{{ asset('assets/js/jquery-3.4.1.min.js') }}"></script>
     <script src="{{ asset('assets/js/base.js') }}"></script>
 {% endblock %}

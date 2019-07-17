@@ -2,6 +2,7 @@
 
 namespace SondeBundle\Controller;
 
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\LineChart;
 use SondeBundle\Entity\Sonde;
 use SondeBundle\Entity\SondeDetails;
 use SondeBundle\Entity\SondeRpmHistory;
@@ -62,6 +63,11 @@ class DefaultController extends Controller
         return new JsonResponse(['sonde' => $sonde]);
     }
 
+    /**
+     * @param $sondaId
+     *
+     * @return Response
+     */
     public function sondeDetailsAction($sondaId)
     {
         $em = $this->get('doctrine')->getManager('default');
@@ -103,5 +109,163 @@ class DefaultController extends Controller
             'form' => $form->createView(),
             'details' => $details
         ]);
+    }
+
+    /**
+     * @param $sondaId
+     *
+     * @return Response
+     */
+    public function sondeChartsAction($sondaId)
+    {
+        $dataType = $this->request->get('type');
+
+        if (is_null($dataType)) {
+            $dataType = SondeDetails::SONDA_RPM;
+        }
+
+        if (!in_array($dataType, SondeDetails::$sondaDetails)) {
+            $dataType = SondeDetails::SONDA_RPM;
+        }
+
+        $chartHeader = ['Data', 'Valoare'];
+        $chartData[] = $chartHeader;
+
+        list(
+            $title,
+            $chartData
+            ) = $this->getChartDataByType($dataType, $sondaId);
+
+        array_unshift($chartData, $chartHeader);
+
+        $line = new LineChart();
+        $line->getData()->setArrayToDataTable($chartData);
+        $line->getOptions()
+            ->setTitle($title)
+            ->setCurveType('function')
+            ->setLineWidth(2)
+            ->setWidth(900)
+            ->setHeight(400)
+            ->getLegend()->setPosition('none');
+
+        return $this->render('@Sonde/Default/charts.html.twig', [
+            'lineChart' => $line,
+            'company_name' => $this->getParameter('company_name'),
+            'sondaId' => $sondaId,
+            'data_type' => $dataType,
+        ]);
+    }
+
+    /**
+     * @param $type
+     * @param $sondaId
+     *
+     * @return null
+     */
+    protected function getChartDataByType($type, $sondaId)
+    {
+        switch($type) {
+            case SondeDetails::SONDA_RPM:
+                $title = "RPM";
+                $data = $this->getRpmDetails($sondaId);
+                break;
+            case SondeDetails::SONDA_CURENT_MOTOR:
+                $title = "Curent motor";
+                $data = $this->getSondaDetails($sondaId, "getCurentMotor");
+                break;
+            case SondeDetails::SONDA_PUTERE_MOTOR:
+                $title = "Putere motor";
+                $data = $this->getSondaDetails($sondaId, "getPutereMotor");
+                break;
+            case SondeDetails::SONDA_TENSIUNE_MOTOR:
+                $title = "Tensiune motor";
+                $data = $this->getSondaDetails($sondaId, "getTensiuneMotor");
+                break;
+            case SondeDetails::SONDA_RAPORT_REDUCTOR:
+                $title = "Raport reductor";
+                $data = $this->getSondaDetails($sondaId, "getRaportReductor");
+                break;
+            case SondeDetails::SONDA_FULIE_MOTOR:
+                $title = "Fulie motor";
+                $data = $this->getSondaDetails($sondaId, "getFulieMotor");
+                break;
+            case SondeDetails::SONDA_FULIE_REDUCTOR:
+                $title = "Fulie reductor";
+                $data = $this->getSondaDetails($sondaId, "getFulieReductor");
+                break;
+            case SondeDetails::SONDA_DEBIT:
+                $title = "Debit";
+                $data = [[0,0]];
+                break;
+            default:
+                $title = "";
+                $data = [[0,0]];
+                break;
+        }
+
+        return [$title, $data];
+    }
+
+    /**
+     * @param $sondaId
+     *
+     * @return array
+     */
+    private function getRpmDetails($sondaId)
+    {
+        $chartData = [];
+        $em = $this->get('doctrine')->getManager('default');
+        $sondaRepository = $em->getRepository(SondeRpmHistory::class);
+        $sondaDetails = $sondaRepository->findBy(
+            ['idSonda' => $sondaId],
+            ['createdAt' => 'ASC']
+        );
+
+        if (is_array($sondaDetails)) {
+            /** @var SondeRpmHistory $sondaDetail */
+            foreach ($sondaDetails as $sondaDetail) {
+                $chartData[] = [
+                    $sondaDetail->getCreatedAt()->format("Y-m-d H:i"),
+                    $sondaDetail->getRpm(),
+                ];
+            }
+        }
+
+        return $chartData;
+
+    }
+
+    /**
+     * @param $sondaId
+     * @param $method
+     *
+     * @return array
+     */
+    private function getSondaDetails($sondaId, $method)
+    {
+        $chartData = [];
+        $em = $this->get('doctrine')->getManager('default');
+        $sondaRepository = $em->getRepository(SondeDetails::class);
+        $sondaDetails = $sondaRepository->findBy(
+            ['idSonda' => $sondaId],
+            ['createdAt' => 'ASC']
+        );
+
+        if (is_array($sondaDetails)) {
+            /** @var SondeDetails $sondaDetail */
+            foreach ($sondaDetails as $sondaDetail) {
+                $chartData[] = [
+                    $sondaDetail->getCreatedAt()->format("Y-m-d H:i"),
+                    call_user_func_array([$sondaDetail, $method], []),
+                ];
+            }
+        }
+
+        return $chartData;
+    }
+
+    public function sondeDebitAction($sondaId)
+    {
+
     }
 }

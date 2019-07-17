@@ -1,0 +1,18 @@
+{% set rpmType = constant('SondeBundle\\Entity\\SondeDetails::SONDA_RPM') %}
+{% set curentMotorType = constant('SondeBundle\\Entity\\SondeDetails::SONDA_CURENT_MOTOR') %}
+{% set putereMotorType = constant('SondeBundle\\Entity\\SondeDetails::SONDA_PUTERE_MOTOR') %}
+{% set tensiuneMotorType = constant('SondeBundle\\Entity\\SondeDetails::SONDA_TENSIUNE_MOTOR') %}
+{% set raportReductorType = constant('SondeBundle\\Entity\\SondeDetails::SONDA_RAPORT_REDUCTOR') %}
+{% set fulieMotorType = constant('SondeBundle\\Entity\\SondeDetails::SONDA_FULIE_MOTOR') %}
+{% set fulieReductorType = constant('SondeBundle\\Entity\\SondeDetails::SONDA_FULIE_REDUCTOR') %}
+{% set debitType = constant('SondeBundle\\Entity\\SondeDetails::SONDA_DEBIT') %}
+
+<a href="?type={{ rpmType }}" class="btn btn-outline-info {% if data_type == rpmType %}active{% endif %}">RPM</a>
+<a href="?type={{ curentMotorType }}" class="btn btn-outline-info {% if data_type == curentMotorType %}active{% endif %}">Curent motor</a>
+<a href="?type={{ putereMotorType }}" class="btn btn-outline-info {% if data_type == putereMotorType %}active{% endif %}">Putere motor</a>
+<a href="?type={{ tensiuneMotorType }}" class="btn btn-outline-info {% if data_type == tensiuneMotorType %}active{% endif %}">Tensiune motor</a>
+<a href="?type={{ raportReductorType }}" class="btn btn-outline-info {% if data_type == raportReductorType %}active{% endif %}">Raport reductor</a>
+<a href="?type={{ fulieMotorType }}" class="btn btn-outline-info {% if data_type == fulieMotorType %}active{% endif %}">Fulie motor</a>
+<a href="?type={{ fulieReductorType }}" class="btn btn-outline-info {% if data_type == fulieReductorType %}active{% endif %}">Fulie reductor</a>
+<a href="{{ path('sonde_debit', {'sondaId' : sondaId}) }}" class="btn btn-outline-info {% if data_type == debitType %}active{% endif %}">Debit</a>
+<a href="{{ path("sonde_details", {'sondaId' : sondaId}) }}" class="btn btn-info">Inapoi</a>
