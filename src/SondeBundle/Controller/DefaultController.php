@@ -100,6 +100,8 @@ class DefaultController extends Controller
 
             $em->persist($sondeRpmHistory);
             $em->flush();
+
+            $this->request->getSession()->getFlashBag()->add('success', "RPM salvat corect");
         }
 
         return $this->render('@Sonde/Default/details.html.twig', [

@@ -1,0 +1,30 @@
+{% block master_flashes %}
+    <div class="flashes-container">
+        {% for flash in app.flashes('error') %}
+            <div class="alert alert-danger">
+                <b>Eroare!</b>
+                {{ flash }}
+            </div>
+        {% endfor %}
+        {% for flash in app.flashes('warning') %}
+            <div class="alert alert-warning">
+                <b>Atentie!</b>
+                {{ flash }}
+            </div>
+        {% endfor %}
+
+        {% for flash in app.flashes('info') %}
+            <div class="alert alert-info">
+                {{ flash }}
+            </div>
+        {% endfor %}
+
+        {% for flash in app.flashes('success') %}
+            <div class="alert alert-success">
+                <b>Succes!</b>
+                {{ flash|raw }}
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
