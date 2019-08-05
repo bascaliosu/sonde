@@ -22,6 +22,12 @@ class DefaultController extends Controller
     /** @var Request $request */
     protected $request;
 
+    private $precision = 30;
+
+    private $minRange = 0.75;
+
+    private $maxRange = 1.25;
+
     /**
      * MetaController constructor.
      *
@@ -120,6 +126,8 @@ class DefaultController extends Controller
      */
     public function sondeChartsAction($sondaId)
     {
+        $newChartData = [];
+        $yAxis = [];
         $dataType = $this->request->get('type');
 
         if (is_null($dataType)) {
@@ -130,31 +138,33 @@ class DefaultController extends Controller
             $dataType = SondeDetails::SONDA_RPM;
         }
 
-        $chartHeader = ['Data', 'Valoare'];
-        $chartData[] = $chartHeader;
-
         list(
             $title,
             $chartData
             ) = $this->getChartDataByType($dataType, $sondaId);
 
-        array_unshift($chartData, $chartHeader);
+        foreach ($chartData as $data) {
+            $newChartData[] = ["y" => $data[1], "label" => $data[0]];
+            $yAxis[] = $data[1];
+        }
 
-        $line = new LineChart();
-        $line->getData()->setArrayToDataTable($chartData);
-        $line->getOptions()
-            ->setTitle($title)
-            ->setCurveType('function')
-            ->setLineWidth(2)
-            ->setWidth(900)
-            ->setHeight(400)
-            ->getLegend()->setPosition('none');
+        $minYaxis = min($yAxis);
+        if ($minYaxis <= 1) {
+            $minYaxis = -10;
+        }
+        $minYaxis = floor( $this->minRange * $minYaxis / $this->precision ) * $this->precision;
+
+        $maxYaxis = max($yAxis);
+        $maxYaxis = ceil( $this->maxRange * $maxYaxis / $this->precision ) * $this->precision;
 
         return $this->render('@Sonde/Default/charts.html.twig', [
-            'lineChart' => $line,
+            'chart_data' => json_encode($newChartData),
             'company_name' => $this->getParameter('company_name'),
             'sondaId' => $sondaId,
             'data_type' => $dataType,
+            'title' => $title,
+            'min_value' => $minYaxis,
+            'max_value' => $maxYaxis
         ]);
     }
 

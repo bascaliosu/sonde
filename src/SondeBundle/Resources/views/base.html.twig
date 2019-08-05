@@ -7,10 +7,12 @@
             <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"/>
             <link rel="stylesheet" href="{{ asset('assets/css/base.css') }}"/>
         {% endblock %}
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('assets/js/jquery-3.4.1.min.js') }}"></script>
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
     </body>
 </html>

@@ -12,9 +12,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-1"></div>
-                <div class="col-6">
-                    <div id="div_chart"></div>
+                <div class="col-12">
+                    <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
                 </div>
             </div>
         </div>
@@ -28,10 +27,31 @@
         </div>
     </div>
 {% endblock %}
-{% block stylesheets %}
+{% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/canvasjs.min.js') }}"></script>
     <script type="text/javascript">
-        {{ gc_draw(lineChart, 'div_chart') }}
+        window.onload = function () {
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title:{
+                    text: ""
+                },
+                axisY:{
+                    title: "{{ title }}",
+                    minimum: {{ min_value }},
+                    maximum: {{ max_value }}
+                },
+                data: [{
+                    type: "spline",
+                    markerSize: 5,
+                    dataPoints: {{ chart_data|raw }}
+        }]
+            });
+
+            chart.render();
+
+        }
     </script>
 {% endblock %}
