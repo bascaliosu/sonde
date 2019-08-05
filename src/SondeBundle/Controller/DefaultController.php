@@ -128,6 +128,9 @@ class DefaultController extends Controller
     {
         $newChartData = [];
         $yAxis = [];
+        $minYaxis = 0;
+        $maxYaxis = 0;
+        
         $dataType = $this->request->get('type');
 
         if (is_null($dataType)) {
@@ -148,13 +151,15 @@ class DefaultController extends Controller
             $yAxis[] = $data[1];
         }
 
-        $minYaxis = min($yAxis);
-        if ($minYaxis <= 1) {
-            $minYaxis = -10;
+        if (count($yAxis)) {
+            $minYaxis = min($yAxis);
+            if ($minYaxis <= 1) {
+                $minYaxis = -10;
+            }
+            $maxYaxis = max($yAxis);
         }
-        $minYaxis = floor( $this->minRange * $minYaxis / $this->precision ) * $this->precision;
 
-        $maxYaxis = max($yAxis);
+        $minYaxis = floor( $this->minRange * $minYaxis / $this->precision ) * $this->precision;
         $maxYaxis = ceil( $this->maxRange * $maxYaxis / $this->precision ) * $this->precision;
 
         return $this->render('@Sonde/Default/charts.html.twig', [
