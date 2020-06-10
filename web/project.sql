@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.62, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: project
+-- Host: localhost
 -- ------------------------------------------------------
 -- Server version	5.5.62-0ubuntu0.14.04.1
 
@@ -14,6 +14,10 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+DROP DATABASE IF EXISTS `project`;
+CREATE DATABASE `project` CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `project`;
 
 --
 -- Table structure for table `sonde`
