@@ -22,12 +22,6 @@ class DefaultController extends Controller
     /** @var Request $request */
     protected $request;
 
-    private $precision = 30;
-
-    private $minRange = 0.75;
-
-    private $maxRange = 1.25;
-
     /**
      * MetaController constructor.
      *
@@ -147,29 +141,15 @@ class DefaultController extends Controller
             ) = $this->getChartDataByType($dataType, $sondaId);
 
         foreach ($chartData as $data) {
-            $newChartData[] = ["y" => $data[1], "label" => $data[0]];
-            $yAxis[] = $data[1];
+            $newChartData[] = [$data[0], $data[1]];
         }
-
-        if (count($yAxis)) {
-            $minYaxis = min($yAxis);
-            if ($minYaxis <= 1) {
-                $minYaxis = -10;
-            }
-            $maxYaxis = max($yAxis);
-        }
-
-        $minYaxis = floor( $this->minRange * $minYaxis / $this->precision ) * $this->precision;
-        $maxYaxis = ceil( $this->maxRange * $maxYaxis / $this->precision ) * $this->precision;
 
         return $this->render('@Sonde/Default/charts.html.twig', [
             'chart_data' => json_encode($newChartData),
             'company_name' => $this->getParameter('company_name'),
             'sondaId' => $sondaId,
             'data_type' => $dataType,
-            'title' => $title,
-            'min_value' => $minYaxis,
-            'max_value' => $maxYaxis
+            'title' => $title
         ]);
     }
 

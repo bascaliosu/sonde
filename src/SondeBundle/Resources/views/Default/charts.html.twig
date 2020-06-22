@@ -11,12 +11,10 @@
                     {% include '@Sonde/Default/chartsMenu.html.twig' %}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
-                </div>
-            </div>
         </div>
+        <figure class="highcharts-figure">
+            <div id="container"></div>
+        </figure>
         <div class="container">
             <div class='row'>
                 <div class="col-3" style="display:none">
@@ -27,31 +25,75 @@
         </div>
     </div>
 {% endblock %}
-{% block javascripts %}
+{% block stylesheets %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('assets/js/canvasjs.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/css/chart.css') }}"/>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('assets/js/highcharts.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/series-label.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/exporting.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/export-data.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/accessibility.js') }}"></script>
     <script type="text/javascript">
         window.onload = function () {
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'spline'
+                },
 
-            var chart = new CanvasJS.Chart("chartContainer", {
-                animationEnabled: true,
-                title:{
-                    text: ""
+                title: {
+                    text: '{{ title }}'
                 },
-                axisY:{
-                    title: "{{ title }}",
-                    minimum: {{ min_value }},
-                    maximum: {{ max_value }}
+
+                subtitle: {
+                    text: ''
                 },
-                data: [{
-                    type: "spline",
-                    markerSize: 5,
-                    dataPoints: {{ chart_data|raw }}
-        }]
+
+                legend: {
+                    enabled: false
+                },
+
+                yAxis: {
+                    title: {
+                        text: ''
+                    }
+                },
+
+                xAxis: {
+                    type: 'category'
+                },
+
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 2010
+                    }
+                },
+
+                series: [{
+                    name: '',
+                    data: {{ chart_data|raw }},
+                }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+
             });
-
-            chart.render();
-
         }
     </script>
 {% endblock %}
